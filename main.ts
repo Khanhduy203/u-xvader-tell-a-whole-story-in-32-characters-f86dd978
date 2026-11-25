@@ -11,6 +11,12 @@ if (!NAME.trim()) {
 if (NAME.length > 32) {
   throw new Error("entry exceeds 32 characters");
 }
+if (/[\u0000-\u001f\u007f]/.test(NAME)) {
+  throw new Error("entry must not contain control characters");
+}
+if (!/[A-Za-z0-9]/.test(NAME)) {
+  throw new Error("entry must contain at least one letter or digit");
+}
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
 mkdirSync(outDir, { recursive: true });
